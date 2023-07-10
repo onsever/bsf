@@ -15,9 +15,9 @@ export default function App() {
     useEffect(() => {
         fetchData().then(data => {
             setPhotos(data);
-            setLoading(false);
         }).catch(error => {
             setError(error);
+        }).finally(() => {
             setLoading(false);
         });
     }, []);
