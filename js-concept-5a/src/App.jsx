@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {useEffect, useState} from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+    const [photos, setPhotos] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const fetchData = async () => {
+        setLoading(true);
+        const response = await fetch("https://jsonplaceholder.typicode.com/photos?_start=0&_limit=6");
+
+        return await response.json();
+    }
+
+    useEffect(() => {
+        fetchData().then(data => {
+            setPhotos(data);
+            setLoading(false);
+        }).catch(error => {
+            setError(error);
+            setLoading(false);
+        });
+    }, []);
+
+    return (
+        <div>
+            {loading && <p>Loading...</p>}
+            {error && <p>{error.message}</p>}
+            <ul className="list">
+                {photos.map(photo => (
+                    <li key={photo.id}>
+                        <img className="image" src={photo.url} alt={`Photo ${photo.id}`} />
+                        <h2>{photo.title}</h2>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    )
 }
-
-export default App
