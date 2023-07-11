@@ -1,0 +1,136 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.navbar {
+    background-color: #4B5469;
+    color: #fff;
+    padding: 1rem 0;
+    min-height: 50px;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar_logo {
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.navbar_link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: center;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    margin-left: 1rem;
+    border: 1px solid #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+.list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+    list-style-type: none;
+    width: 100%;
+}
+
+.list_item {
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.list_item_title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.list_item_title_link {
+    color: #000;
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+
+.divider {
+    margin: 1rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.list_item_status {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 8px;
+}
+
+.list_item_delete,
+.list_item_edit {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+form label {
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+}
+
+form input,
+form textarea {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    outline: none;
+}
+
+form button {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    border: none;
+    background-color: #4B5469;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    width: 200px;
+}
