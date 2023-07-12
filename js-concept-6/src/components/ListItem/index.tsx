@@ -3,15 +3,11 @@ import {TodoProps} from "../../App.tsx";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import {Link} from "react-router-dom";
 
-export default function ListItem({ id, title, description, completed }: TodoProps): JSX.Element {
+type ListItemProps = {
+    onDelete?: (id: number) => void;
+} & TodoProps;
 
-    const handleDelete = (): void => {
-        const todoList = localStorage.getItem("todos");
-        const parsedTodoList = todoList ? JSON.parse(todoList) as TodoProps[] : [];
-        const filteredTodoList = parsedTodoList.filter((todo: TodoProps) => todo.id !== id);
-        localStorage.setItem("todos", JSON.stringify(filteredTodoList));
-    }
-
+export default function ListItem({ id, title, description, completed, onDelete }: ListItemProps): JSX.Element {
     return (
         <li className="list_item">
             <div className="list_item_title">
@@ -23,7 +19,11 @@ export default function ListItem({ id, title, description, completed }: TodoProp
                 <div className="list_item_status_icon">
                     {completed ? "✅" : "❌"}
                 </div>
-                <RiDeleteBin6Fill className="list_item_delete" onClick={handleDelete}/>
+                <RiDeleteBin6Fill className="list_item_delete" onClick={
+                    () => {
+                        onDelete && onDelete(id);
+                    }
+                }/>
             </div>
         </li>
     )
