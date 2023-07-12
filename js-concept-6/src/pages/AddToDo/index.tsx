@@ -1,10 +1,13 @@
-import React, { JSX, useState } from "react";
+import React, {JSX, useEffect, useState} from "react";
 import NavigationBar from "../../components/NavigationBar";
 import {TodoProps} from "../../App.tsx";
 import {useNavigate} from "react-router-dom";
+import {useLocalStorage} from "../../hooks/useLocalStorage.ts";
 
 export default function AddToDo(): JSX.Element {
     const navigate = useNavigate();
+    const [localData, setLocalData] = useLocalStorage<TodoProps[]>("todos");
+    const [todo, setTodo] = useState<TodoProps | null>(null);
 
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
@@ -21,16 +24,21 @@ export default function AddToDo(): JSX.Element {
             completed
         };
 
-        const todoList = localStorage.getItem("todos");
-        const parsedTodoList = todoList ? JSON.parse(todoList) as TodoProps[] : [];
-        localStorage.setItem("todos", JSON.stringify([...parsedTodoList, newTodo]));
+        setTodo(newTodo);
+        setLocalData([...localData, newTodo]);
 
         setTitle("");
         setDescription("");
         setCompleted(false);
-
-        navigate("/");
     }
+
+    useEffect(() => {
+        if (todo) {
+            navigate("/");
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [todo]);
 
     return (
         <>
