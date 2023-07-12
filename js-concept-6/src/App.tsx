@@ -1,5 +1,6 @@
-import {JSX, useEffect, useState } from "react";
+import {JSX, useEffect } from "react";
 import {useFetch} from "./hooks/useFetch.ts";
+import {useLocalStorage} from "./hooks/useLocalStorage.ts";
 import NavigationBar from "./components/NavigationBar";
 import ListItem from "./components/ListItem";
 
@@ -15,24 +16,19 @@ const FETCH_URL = "https://jsonplaceholder.typicode.com/todos/?_limit=10";
 
 export default function App(): JSX.Element {
     const { data, loading, error } = useFetch<TodoProps[]>(FETCH_URL);
-    const [localData, setLocalData] = useState<TodoProps[]>([]);
+    const [localData, setLocalData] = useLocalStorage<TodoProps[]>("todos", []);
+
+    const handleDelete = (id: number): void => {
+        setLocalData(localData.filter((todo: TodoProps) => todo.id !== id));
+    }
 
     useEffect(() => {
-        if (data) {
-            if (!localStorage.getItem("todos")) {
-                localStorage.setItem("todos", JSON.stringify(data));
-            }
+        if (localData.length === 0 && data) {
+            setLocalData(data);
         }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
-
-    useEffect(() => {
-        const todoList = localStorage.getItem("todos");
-        const parsedTodoList = todoList ? JSON.parse(todoList) as TodoProps[] : [];
-        setLocalData(parsedTodoList);
-
-        console.log(data);
-        console.log(localData);
-    }, []);
 
     return (
         <>
@@ -49,6 +45,7 @@ export default function App(): JSX.Element {
                                 title={todo.title}
                                 description={todo.description}
                                 completed={todo.completed}
+                                onDelete={() => handleDelete(todo.id)}
                             />
                     ))}
                 </ul>
